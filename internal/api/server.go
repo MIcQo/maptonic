@@ -9,6 +9,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/healthcheck"
 	"github.com/mikhail-bigun/fiberlogrus"
+	"github.com/sirupsen/logrus"
 )
 
 type Config struct {
@@ -20,8 +21,9 @@ type Config struct {
 func NewServer(c *Config) error {
 	// Create your router.
 	router := fiber.New(fiber.Config{
-		AppName:           "MapTonic",
-		EnablePrintRoutes: c.Debug,
+		AppName:               "MapTonic",
+		DisableStartupMessage: !c.Debug,
+		EnablePrintRoutes:     c.Debug,
 	})
 
 	// Register your middleware.
@@ -37,6 +39,7 @@ func NewServer(c *Config) error {
 	// Register your operations with the API.
 	// ...
 
+	logrus.Info("Server started at ", fmt.Sprintf("%s:%d", c.Host, c.Port))
 	// Start the server!
 	return router.Listen(fmt.Sprintf("%s:%d", c.Host, c.Port))
 }
