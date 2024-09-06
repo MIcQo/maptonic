@@ -7,6 +7,7 @@ import (
 	"github.com/danielgtaylor/huma/v2"
 	"github.com/danielgtaylor/huma/v2/adapters/humafiber"
 	"github.com/gofiber/fiber/v2"
+	"github.com/mikhail-bigun/fiberlogrus"
 )
 
 type Config struct {
@@ -22,6 +23,7 @@ func NewServer(c *Config) error {
 		EnablePrintRoutes: c.Debug,
 	})
 
+	registerLogger(router)
 	registerPrometheus(router)
 
 	// Wrap the router with Huma to create an API instance.
@@ -32,6 +34,10 @@ func NewServer(c *Config) error {
 
 	// Start the server!
 	return router.Listen(fmt.Sprintf("%s:%d", c.Host, c.Port))
+}
+
+func registerLogger(router *fiber.App) {
+	router.Use(fiberlogrus.New())
 }
 
 func registerPrometheus(router *fiber.App) {
