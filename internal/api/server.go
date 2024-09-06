@@ -7,6 +7,7 @@ import (
 	"github.com/danielgtaylor/huma/v2"
 	"github.com/danielgtaylor/huma/v2/adapters/humafiber"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/healthcheck"
 	"github.com/mikhail-bigun/fiberlogrus"
 )
 
@@ -23,8 +24,12 @@ func NewServer(c *Config) error {
 		EnablePrintRoutes: c.Debug,
 	})
 
-	registerLogger(router)
-	registerPrometheus(router)
+	// Register your middleware.
+	router.Use(
+		registerLogger(),
+		registerHealthCheck(),
+		registerPrometheus(router),
+	)
 
 	// Wrap the router with Huma to create an API instance.
 	_ = humafiber.New(router, humaConfig())
@@ -36,15 +41,26 @@ func NewServer(c *Config) error {
 	return router.Listen(fmt.Sprintf("%s:%d", c.Host, c.Port))
 }
 
-func registerLogger(router *fiber.App) {
-	router.Use(fiberlogrus.New())
+func registerHealthCheck() fiber.Handler {
+	return healthcheck.New(healthcheck.Config{
+		LivenessProbe: func(c *fiber.Ctx) bool {
+			return true
+		},
+		ReadinessProbe: func(c *fiber.Ctx) bool {
+			return true
+		},
+	})
 }
 
-func registerPrometheus(router *fiber.App) {
+func registerLogger() fiber.Handler {
+	return fiberlogrus.New()
+}
+
+func registerPrometheus(router *fiber.App) func(ctx *fiber.Ctx) error {
 	prometheus := fiberprometheus.New("maptonic")
 	prometheus.RegisterAt(router, "/metrics")
-	prometheus.SetSkipPaths([]string{"/health", "/openapi.yaml"})
-	router.Use(prometheus.Middleware)
+	prometheus.SetSkipPaths([]string{"/readyz", "livez", "/openapi.yaml"})
+	return prometheus.Middleware
 }
 
 func humaConfig() huma.Config {
