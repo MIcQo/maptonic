@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+
 	"github.com/MIcQo/maptonic/config"
 	"github.com/ansrivas/fiberprometheus/v2"
 	"github.com/danielgtaylor/huma/v2"

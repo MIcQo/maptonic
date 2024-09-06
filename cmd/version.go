@@ -2,9 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"runtime"
+
 	"github.com/MIcQo/maptonic/config"
 	"github.com/spf13/cobra"
-	"runtime"
 )
 
 // versionCmd represents the version command
