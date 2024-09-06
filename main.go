@@ -1,8 +1,9 @@
 package main
 
-import "github.com/sirupsen/logrus"
+import (
+	"github.com/MIcQo/maptonic/cmd"
+)
 
 func main() {
-	// TODO: Add your code here
-	logrus.Info("Hello World!")
+	cmd.Execute()
 }
