@@ -3,6 +3,7 @@ package api
 import (
 	"fmt"
 	"github.com/MIcQo/maptonic/config"
+	"github.com/ansrivas/fiberprometheus/v2"
 	"github.com/danielgtaylor/huma/v2"
 	"github.com/danielgtaylor/huma/v2/adapters/humafiber"
 	"github.com/gofiber/fiber/v2"
@@ -21,6 +22,8 @@ func NewServer(c *Config) error {
 		EnablePrintRoutes: c.Debug,
 	})
 
+	registerPrometheus(router)
+
 	// Wrap the router with Huma to create an API instance.
 	_ = humafiber.New(router, humaConfig())
 
@@ -29,6 +32,13 @@ func NewServer(c *Config) error {
 
 	// Start the server!
 	return router.Listen(fmt.Sprintf("%s:%d", c.Host, c.Port))
+}
+
+func registerPrometheus(router *fiber.App) {
+	prometheus := fiberprometheus.New("maptonic")
+	prometheus.RegisterAt(router, "/metrics")
+	prometheus.SetSkipPaths([]string{"/health", "/openapi.yaml"})
+	router.Use(prometheus.Middleware)
 }
 
 func humaConfig() huma.Config {
