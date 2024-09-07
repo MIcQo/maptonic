@@ -10,6 +10,9 @@ type ReverseGeocodingRequest struct {
 }
 
 type ReverseGeocodingResponse struct {
+	Body struct {
+		Message string `json:"message" example:"Hello, world!" doc:"Greeting message"`
+	}
 }
 
 func ReverseGeocodingHandler(_ context.Context, _ *ReverseGeocodingRequest) (*ReverseGeocodingResponse, error) {

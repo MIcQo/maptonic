@@ -7,6 +7,9 @@ type SearchGeocodingRequest struct {
 }
 
 type SearchGeocodingResponse struct {
+	Body struct {
+		Message string `json:"message" example:"Hello, world!" doc:"Greeting message"`
+	}
 }
 
 func SearchGeocodingHandler(_ context.Context, _ *SearchGeocodingRequest) (*SearchGeocodingResponse, error) {
