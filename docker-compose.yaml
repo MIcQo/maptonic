@@ -1,9 +1,9 @@
 services:
   postgres:
-    image: postgres:16
+    image: postgis/postgis:latest
     environment:
       POSTGRES_USER: maptonic
       POSTGRES_PASSWORD: maptonic
       POSTGRES_DB: maptonic
     ports:
-      - 5432:5432
+      - "5432:5432"

@@ -8,8 +8,16 @@ import (
 	"github.com/spf13/cobra"
 )
 
+type OwnFormatter struct {
+}
+
+func (o OwnFormatter) Format(entry *logrus.Entry) ([]byte, error) {
+	return []byte(entry.Message), nil
+}
+
 func init() {
 	rootCmd.PersistentFlags().BoolP("debug", "d", false, "debug mode")
+	rootCmd.PersistentFlags().BoolP("verbose", "v", false, "verbose mode")
 }
 
 // Root command definition
@@ -23,10 +31,15 @@ and serve vector and raster map tiles.`,
 		logrus.Info("Welcome to MapTonic!")
 	},
 	PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
-		customFormatter := new(logrus.TextFormatter)
-		customFormatter.TimestampFormat = "2006-01-02 15:04:05"
-		customFormatter.FullTimestamp = true
-		logrus.SetFormatter(customFormatter)
+		if verboseEnabled, err := cmd.Flags().GetBool("verbose"); err == nil && verboseEnabled {
+			customFormatter := new(logrus.TextFormatter)
+			customFormatter.TimestampFormat = "2006-01-02 15:04:05"
+			customFormatter.FullTimestamp = true
+			logrus.SetFormatter(customFormatter)
+		} else {
+			var customFormatter = new(OwnFormatter)
+			logrus.SetFormatter(customFormatter)
+		}
 
 		if debugEnabled, err := cmd.Flags().GetBool("debug"); err == nil && debugEnabled {
 			logrus.SetLevel(logrus.DebugLevel)
