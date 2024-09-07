@@ -7,7 +7,6 @@ import (
 	"os/exec"
 
 	"github.com/MIcQo/maptonic/internal/db"
-	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
 )
 

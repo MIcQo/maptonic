@@ -6,10 +6,12 @@ require (
 	github.com/ansrivas/fiberprometheus/v2 v2.7.0
 	github.com/danielgtaylor/huma/v2 v2.22.1
 	github.com/gofiber/fiber/v2 v2.52.5
-	github.com/lib/pq v1.10.9
 	github.com/mikhail-bigun/fiberlogrus v0.1.3
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/cobra v1.8.1
+	github.com/uptrace/bun v1.2.3
+	github.com/uptrace/bun/dialect/pgdialect v1.2.3
+	github.com/uptrace/bun/driver/pgdriver v1.2.3
 )
 
 require (
@@ -31,9 +33,6 @@ require (
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/tmthrgd/go-hex v0.0.0-20190904060850-447a3041c3bc // indirect
-	github.com/uptrace/bun v1.2.3 // indirect
-	github.com/uptrace/bun/dialect/pgdialect v1.2.3 // indirect
-	github.com/uptrace/bun/driver/pgdriver v1.2.3 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.52.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
