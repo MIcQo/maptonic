@@ -1,7 +1,7 @@
 package api
 
 import (
-	"fmt"
+	"github.com/MIcQo/maptonic/internal/api"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"strconv"
@@ -24,12 +24,22 @@ var ReverseCmd = &cobra.Command{
 			logrus.Fatal(lonErr)
 		}
 
+		var zoom, _ = cmd.Flags().GetUint("zoom")
 		logrus.WithFields(logrus.Fields{
-			"lat": lat,
-			"lon": lon,
+			"lat":  lat,
+			"lon":  lon,
+			"zoom": zoom,
 		}).Debug("Reverse geocoding...")
 
-		// TODO: Add reverse geocoding functionality
-		fmt.Println(lat, lon)
+		var result, err = api.ReverseGeocode(lat, lon, zoom)
+		if err != nil {
+			logrus.Fatal(err)
+		}
+
+		logrus.Infof("%+v", result)
 	},
+}
+
+func init() {
+	ReverseCmd.Flags().UintP("zoom", "z", 13, "Zoom level")
 }

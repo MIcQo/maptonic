@@ -20,6 +20,7 @@ var apiCmd = &cobra.Command{
 func init() {
 	apiCmd.AddCommand(api.ServeCmd)
 	apiCmd.AddCommand(api.ReverseCmd)
+	apiCmd.AddCommand(api.SearchCmd)
 	rootCmd.AddCommand(apiCmd)
 
 	// Here you will define your flags and configuration settings.

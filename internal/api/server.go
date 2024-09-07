@@ -35,10 +35,11 @@ func NewServer(c *Config) error {
 	)
 
 	// Wrap the router with Huma to create an API instance.
-	_ = humafiber.New(router, humaConfig())
+	var api = humafiber.New(router, humaConfig())
 
 	// Register your operations with the API.
-	// ...
+	huma.Register(api, huma.Operation{Path: "/reverse", Method: "GET"}, ReverseGeocodingHandler)
+	huma.Register(api, huma.Operation{Path: "/search", Method: "GET"}, SearchGeocodingHandler)
 
 	logrus.Info("Server started at ", fmt.Sprintf("%s:%d", c.Host, c.Port))
 	// Start the server!
