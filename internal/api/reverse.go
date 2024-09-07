@@ -1,6 +1,8 @@
 package api
 
-import "context"
+import (
+	"context"
+)
 
 type ReverseGeocodingRequest struct {
 	Latitude  float64 `json:"lat"`
@@ -16,6 +18,5 @@ func ReverseGeocodingHandler(_ context.Context, _ *ReverseGeocodingRequest) (*Re
 }
 
 func ReverseGeocode(lat, lon float64, zoom uint) (any, error) {
-
 	return nil, nil
 }

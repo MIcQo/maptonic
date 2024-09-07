@@ -54,7 +54,7 @@ func init() {
 	ImportCmd.Flags().BoolP("update", "u", false, "Update dataset")
 
 	// Mark flags as required
-	ImportCmd.MarkFlagRequired("user")
-	ImportCmd.MarkFlagRequired("dbname")
-	ImportCmd.MarkFlagRequired("password")
+	_ = ImportCmd.MarkFlagRequired("user")
+	_ = ImportCmd.MarkFlagRequired("dbname")
+	_ = ImportCmd.MarkFlagRequired("password")
 }

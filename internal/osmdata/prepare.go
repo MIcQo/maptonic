@@ -1,11 +1,11 @@
 package osmdata
 
 import (
-	"database/sql"
 	"github.com/sirupsen/logrus"
+	"github.com/uptrace/bun"
 )
 
-func prepareDatabase(conn *sql.DB) error {
+func prepareDatabase(conn *bun.DB) error {
 	logrus.Debug("Creating postgis extension...")
 	if _, err := conn.Exec("CREATE EXTENSION IF NOT EXISTS postgis;"); err != nil {
 		return err

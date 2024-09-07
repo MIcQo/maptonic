@@ -3,15 +3,24 @@ package osmdata
 import (
 	"bytes"
 	"fmt"
+	"os"
+	"os/exec"
+
 	"github.com/MIcQo/maptonic/internal/db"
 	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
-	"os"
-	"os/exec"
 )
 
 func Import(dbName, dbUser, dbHost, dbPort, dbPassword, osmFile string, update bool) error {
-	var conn = db.NewConnection(dbHost, dbPort, dbUser, dbName, dbPassword)
+	var conn = db.NewConnection(
+		&db.Config{
+			Host:     dbHost,
+			Port:     dbPort,
+			User:     dbUser,
+			Dbname:   dbName,
+			Password: dbPassword,
+		},
+	)
 	defer conn.Close()
 
 	if err := prepareDatabase(conn); err != nil {

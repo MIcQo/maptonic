@@ -2,9 +2,10 @@ package osmdata
 
 import (
 	"fmt"
-	"github.com/sirupsen/logrus"
 	"os"
 	"os/exec"
+
+	"github.com/sirupsen/logrus"
 )
 
 func importOsmFile(dbName, dbUser, dbHost, dbPort, dbPassword, osmFile string, update bool) error {

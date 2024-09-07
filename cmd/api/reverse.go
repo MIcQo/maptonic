@@ -1,10 +1,12 @@
 package api
 
 import (
+	"github.com/MIcQo/maptonic/internal/db"
+	"strconv"
+
 	"github.com/MIcQo/maptonic/internal/api"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
-	"strconv"
 )
 
 // ReverseCmd represents the reverse geocode command
@@ -31,6 +33,7 @@ var ReverseCmd = &cobra.Command{
 			"zoom": zoom,
 		}).Debug("Reverse geocoding...")
 
+		db.NewConnection()
 		var result, err = api.ReverseGeocode(lat, lon, zoom)
 		if err != nil {
 			logrus.Fatal(err)

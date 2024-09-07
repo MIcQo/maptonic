@@ -2,11 +2,12 @@ package osmdata
 
 import (
 	"fmt"
-	"github.com/MIcQo/maptonic/config"
-	"github.com/sirupsen/logrus"
 	"io"
 	"net/http"
 	"os"
+
+	"github.com/MIcQo/maptonic/config"
+	"github.com/sirupsen/logrus"
 )
 
 func getUriForRegion(region string) string {
