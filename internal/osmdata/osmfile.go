@@ -15,12 +15,10 @@ func importOsmFile(dbName, dbUser, dbHost, dbPort, dbPassword, osmFile string, u
 		"--host", dbHost,
 		"--port", dbPort,
 		"--slim",
-		//"--output", "flex",
 		"-C", "10000",
 		"-W",
 		"-l",
 		"--hstore-all",
-		//"--style", config.OSMStyleFile,
 	}
 
 	if update {
