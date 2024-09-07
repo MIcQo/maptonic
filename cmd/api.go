@@ -1,6 +1,3 @@
-/*
-Copyright © 2024 NAME HERE <EMAIL ADDRESS>
-*/
 package cmd
 
 import (
@@ -21,9 +18,9 @@ var apiCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(apiCmd)
-
+	apiCmd.AddCommand(api.ServeCmd)
 	apiCmd.AddCommand(api.ReverseCmd)
+	rootCmd.AddCommand(apiCmd)
 
 	// Here you will define your flags and configuration settings.
 
