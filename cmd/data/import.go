@@ -1,4 +1,4 @@
-package cmd
+package data
 
 import (
 	"github.com/MIcQo/maptonic/internal/osmdata"
@@ -6,8 +6,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// importCmd represents the osmdata command
-var importCmd = &cobra.Command{
+// ImportCmd represents the osmdata command
+var ImportCmd = &cobra.Command{
 	Use:   "import {osm_file}",
 	Short: "Import OSM data using osm2pgsql",
 	Long:  `Imports OpenStreetMap data into a PostgreSQL/PostGIS database using osm2pgsql.`,
@@ -45,19 +45,16 @@ var importCmd = &cobra.Command{
 }
 
 func init() {
-	// Add the import command to the root command
-	rootCmd.AddCommand(importCmd)
-
 	// Define flags for the import command
-	importCmd.Flags().StringP("host", "H", "localhost", "Database host")
-	importCmd.Flags().StringP("port", "P", "5432", "Database port")
-	importCmd.Flags().StringP("user", "U", "", "Database user (required)")
-	importCmd.Flags().StringP("dbname", "s", "", "Database (schema) name (required)")
-	importCmd.Flags().StringP("password", "p", "", "Database password (required)")
-	importCmd.Flags().BoolP("update", "u", false, "Update dataset")
+	ImportCmd.Flags().StringP("host", "H", "localhost", "Database host")
+	ImportCmd.Flags().StringP("port", "P", "5432", "Database port")
+	ImportCmd.Flags().StringP("user", "U", "", "Database user (required)")
+	ImportCmd.Flags().StringP("dbname", "s", "", "Database (schema) name (required)")
+	ImportCmd.Flags().StringP("password", "p", "", "Database password (required)")
+	ImportCmd.Flags().BoolP("update", "u", false, "Update dataset")
 
 	// Mark flags as required
-	importCmd.MarkFlagRequired("user")
-	importCmd.MarkFlagRequired("dbname")
-	importCmd.MarkFlagRequired("password")
+	ImportCmd.MarkFlagRequired("user")
+	ImportCmd.MarkFlagRequired("dbname")
+	ImportCmd.MarkFlagRequired("password")
 }

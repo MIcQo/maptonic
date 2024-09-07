@@ -2,7 +2,6 @@ package osmdata
 
 import (
 	"fmt"
-	"github.com/MIcQo/maptonic/config"
 	"github.com/sirupsen/logrus"
 	"os"
 	"os/exec"
@@ -16,12 +15,12 @@ func importOsmFile(dbName, dbUser, dbHost, dbPort, dbPassword, osmFile string, u
 		"--host", dbHost,
 		"--port", dbPort,
 		"--slim",
-		"--output", "flex",
+		//"--output", "flex",
 		"-C", "10000",
 		"-W",
 		"-l",
 		"--hstore-all",
-		"--style", config.OSMStyleFile,
+		//"--style", config.OSMStyleFile,
 	}
 
 	if update {

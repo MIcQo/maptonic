@@ -1,4 +1,4 @@
-package cmd
+package data
 
 import (
 	"github.com/MIcQo/maptonic/internal/osmdata"
@@ -6,8 +6,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// downloadCmd represents the download command
-var downloadCmd = &cobra.Command{
+// DownloadCmd represents the download command
+var DownloadCmd = &cobra.Command{
 	Use:   "download {region}",
 	Short: "Download OSM data from Geofabrik",
 	Long:  `Downloads OpenStreetMap data from Geofabrik for a specified region.`,
@@ -22,8 +22,6 @@ var downloadCmd = &cobra.Command{
 }
 
 func init() {
-	// Add the download command to the root command
-	rootCmd.AddCommand(downloadCmd)
 
 	// Define flags for the download command
 	// No additional flags needed for this basic implementation
