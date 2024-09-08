@@ -23,12 +23,12 @@ var db *bun.DB
 
 func getDsn(host, port, user, dbname, password string) string {
 	return fmt.Sprintf(
-		"host=%s port=%s user=%s dbname=%s sslmode=disable password=%s",
+		"postgres://%s:%s@%s:%s/%s?sslmode=disable",
+		user,
+		password,
 		host,
 		port,
-		user,
 		dbname,
-		password,
 	)
 }
 
