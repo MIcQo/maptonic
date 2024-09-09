@@ -10,7 +10,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func Import(dbName, dbUser, dbHost, dbPort, dbPassword, osmFile string, update bool) error {
+func Import(dbName, dbUser, dbHost, dbPort, dbPassword, osmFile string, update, debug bool) error {
 	var conn = db.NewConnection(
 		&db.Config{
 			Host:     dbHost,
@@ -18,6 +18,7 @@ func Import(dbName, dbUser, dbHost, dbPort, dbPassword, osmFile string, update b
 			User:     dbUser,
 			Dbname:   dbName,
 			Password: dbPassword,
+			Debug:    debug,
 		},
 	)
 	defer conn.Close()

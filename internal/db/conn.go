@@ -3,6 +3,8 @@ package db
 import (
 	"database/sql"
 	"fmt"
+	"github.com/oiime/logrusbun"
+	"github.com/uptrace/bun/extra/bundebug"
 	"os"
 
 	"github.com/sirupsen/logrus"
@@ -17,45 +19,61 @@ type Config struct {
 	User     string
 	Dbname   string
 	Password string
+	Debug    bool
 }
 
 var db *bun.DB
-
-func getDsn(host, port, user, dbname, password string) string {
-	return fmt.Sprintf(
-		"postgres://%s:%s@%s:%s/%s?sslmode=disable",
-		user,
-		password,
-		host,
-		port,
-		dbname,
-	)
-}
 
 func NewConnection(config ...*Config) *bun.DB {
 	if db != nil {
 		return db
 	}
 
-	var host, port, user, dbname, password string
+	var host = os.Getenv("DB_HOST")
+	var port = os.Getenv("DB_PORT")
+	var user = os.Getenv("DB_USER")
+	var dbname = os.Getenv("DB_NAME")
+	var password = os.Getenv("DB_PASSWORD")
+	var debug = false
+
 	if len(config) >= 1 {
-		host = config[0].Host
-		port = config[0].Port
-		user = config[0].User
-		dbname = config[0].Dbname
-		password = config[0].Password
-	} else {
-		host = os.Getenv("DB_HOST")
-		port = os.Getenv("DB_PORT")
-		user = os.Getenv("DB_USER")
-		dbname = os.Getenv("DB_NAME")
-		password = os.Getenv("DB_PASSWORD")
+		var c = config[0]
+		if c.Host != "" {
+			host = c.Host
+		}
+
+		if c.Port != "" {
+			port = c.Port
+		}
+
+		if c.User != "" {
+			user = c.User
+		}
+
+		if c.Dbname != "" {
+			dbname = c.Dbname
+		}
+
+		if c.Password != "" {
+			password = c.Password
+		}
+
+		debug = c.Debug
 	}
 
 	sqldb := sql.OpenDB(
-		pgdriver.NewConnector(pgdriver.WithDSN(getDsn(host, port, user, dbname, password))),
+		pgdriver.NewConnector(
+			pgdriver.WithAddr(fmt.Sprintf("%s:%s", host, port)),
+			pgdriver.WithUser(user),
+			pgdriver.WithPassword(password),
+			pgdriver.WithDatabase(dbname),
+			pgdriver.WithTLSConfig(nil),
+		),
 	)
+
 	db = bun.NewDB(sqldb, pgdialect.New())
+	db.AddQueryHook(bundebug.NewQueryHook(bundebug.WithVerbose(debug)))
+	db.AddQueryHook(logrusbun.NewQueryHook(logrusbun.QueryHookOptions{Logger: logrus.StandardLogger()}))
 
 	pingErr := db.Ping()
 	if pingErr != nil {

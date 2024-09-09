@@ -33,7 +33,9 @@ var ReverseCmd = &cobra.Command{
 			"zoom": zoom,
 		}).Debug("Reverse geocoding...")
 
-		db.NewConnection()
+		var debug, _ = cmd.Flags().GetBool("debug")
+		db.NewConnection(&db.Config{Debug: debug})
+
 		var result, err = api.ReverseGeocode(lat, lon, zoom)
 		if err != nil {
 			logrus.Fatal(err)

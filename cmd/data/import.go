@@ -24,6 +24,7 @@ var ImportCmd = &cobra.Command{
 		dbName, _ := cmd.Flags().GetString("dbname")
 		dbPassword, _ := cmd.Flags().GetString("password")
 		update, _ := cmd.Flags().GetBool("update")
+		debug, _ := cmd.Flags().GetBool("debug")
 
 		if dbPassword == "" {
 			logrus.Fatal("Error: Database password is required")
@@ -37,6 +38,7 @@ var ImportCmd = &cobra.Command{
 			dbPassword,
 			osmFile,
 			update,
+			debug,
 		)
 		if err != nil {
 			logrus.Fatal(err)

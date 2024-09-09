@@ -2,6 +2,7 @@ package api
 
 import (
 	"context"
+	"github.com/MIcQo/maptonic/internal/db"
 )
 
 type ReverseGeocodingRequest struct {
@@ -21,5 +22,5 @@ func ReverseGeocodingHandler(_ context.Context, _ *ReverseGeocodingRequest) (*Re
 }
 
 func ReverseGeocode(lat, lon float64, zoom uint) (any, error) {
-	return nil, nil
+	return db.ReverseGecode(context.Background(), lat, lon)
 }
